@@ -78,7 +78,10 @@
   }
 
   button, [type="button"], .button {
-    @apply transition-all duration-75 font-medium bg-white
+    @apply transition-all duration-75 font-medium bg-white 
+    text-sm
+
+    fcenter
 
     cursor-pointer
     disabled:pointer-events-none
@@ -88,7 +91,7 @@
     border border-neutral-400/40 p-1 px-4 rounded-md
     /* hover:bg-neutral-500/10 */
     
-    outline-neutral-400/20
+    outline-blue-800/20
     outline
     outline-0
     hover:outline-4;

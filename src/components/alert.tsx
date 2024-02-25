@@ -103,7 +103,7 @@ const AlertDialogAction = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <AlertDialogPrimitive.Action
     ref={ref}
-    className={cn('button', className)}
+    className={cn('button destroy', className)}
     {...props}
   />
 ))

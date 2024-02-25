@@ -14,6 +14,46 @@ datasource db {
   directUrl = env("PROD_DB_URL")
 }
 
+// User Management
+
+model UserGroup {
+  name String @id
+  description String
+  permissions UserGroupPermission[]
+}
+
+enum UserGroupPermission {
+  FullAccess
+  Dashboad_Access
+  AssetManagement_Access
+  AssetManagement_AddAsset
+  AssetManagement_EditAsset
+  AssetManagement_ChangeStatus
+  AssetManagement_HandoverAsset
+  AssetManagement_DownloadData
+  AssetManagement_DeleteAsset
+}
+
+model User {
+  id         String @id @default(cuid())
+  username   String @unique
+  employeeId String @unique
+  // todo Groups and Permissions
+}
+
+// Asset Management todo
+
+model Vehicle {
+  id            String @id @default(cuid())
+  plateNo       String
+  name          String
+  model         String
+  bodyType      String
+  prodYear      Int
+  numberOfTyres Int
+  // assignedTo User
+}
+
 // Work Order (WIP)
 
 model WorkOrder {
@@ -21,7 +61,6 @@ model WorkOrder {
   scheduleDate DateTime
   priority     WorkOrderPriority @default(Medium)
   status       WorkOrderStatus   @default(Open)
-
 }
 
 enum WorkOrderStatus {

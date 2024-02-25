@@ -18,7 +18,7 @@ export function DataTable<TData, TValue>(
   })
 
   return (
-    <div>
+    <div className="my-2">
 
       <div className="rounded-sm overflow-hidden border-b">
         <Table className="">
