@@ -9,12 +9,67 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("PROD_DB_URL_POOLED")
+  provider  = "postgresql"
+  url       = env("PROD_DB_URL_POOLED")
   directUrl = env("PROD_DB_URL")
 }
 
-model Vehicle {
-  id String @id
-  name String
+// Work Order (WIP)
+
+model WorkOrder {
+  id           String            @id @default(cuid())
+  scheduleDate DateTime
+  priority     WorkOrderPriority @default(Medium)
+  status       WorkOrderStatus   @default(Open)
+
+}
+
+enum WorkOrderStatus {
+  Open
+  Assigned
+  In_Progress
+  On_Hold
+  Resolved
+  Closed
+  Canceled
+}
+
+enum WorkOrderPriority {
+  Low
+  Medium
+  High
+}
+
+// ASSET CONFIGURATION
+
+model VehicleAssetConfiguration {
+  id                String  @id @default(cuid())
+  type              String
+  brand             String
+  model             String
+  engineModel       String
+  transmissionModel String
+  isActive          Boolean @default(false)
+}
+
+model VehicleBodyTypeAssetConfiguration {
+  id       String  @id @default(cuid())
+  name     String
+  isActive Boolean @default(false)
+}
+
+model TyreConfiguration {
+  id                  String @id @default(cuid())
+  brand               String // drop down
+  pattern             String // drop down
+  sectionWidth        Int
+  tubeType            String
+  speedSymbol         String
+  construction        String
+  plyRating           Int
+  traCode             String
+  rimDiameter         Int
+  loadIndex           String
+  starRating          Int
+  originalThreadDepth Int
 }

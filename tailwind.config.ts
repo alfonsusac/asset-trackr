@@ -13,8 +13,12 @@ const config: Config = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      colors: {
+        background: 'white',
+      }
     },
   },
-  plugins: [],
+  // npm install -D tailwindcss-animate
+  plugins: [require("tailwindcss-animate")],
 };
 export default config;

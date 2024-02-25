@@ -5,7 +5,6 @@
 @layer base {
   body {
     /* @apply bg-neutral-900 text-neutral-300; */
-    
   }
 
   * {
@@ -19,26 +18,30 @@
     }
   }
 
+  div {
+    /* @apply flex flex-col */
+  }
+
   h1 {
-    @apply text-4xl tracking-tight font-semibold mt-[1lh];
+    @apply text-4xl tracking-tight font-semibold mt-[0.5lh];
   }
 
   h2 {
-    @apply text-3xl tracking-tight font-medium mt-[1lh];
+    @apply text-3xl tracking-tight font-medium mt-[0.5lh];
   }
 
   h3 {
-    @apply text-2xl tracking-tight font-semibold mt-[1lh];
+    @apply text-2xl tracking-tight font-semibold mt-[0.5lh];
   }
 
   h4 {
-    @apply text-xl tracking-tight font-semibold mt-[1lh];
+    @apply text-xl tracking-tight font-semibold mt-[0.5lh];
   }
 
   p,
   ul,
   ol {
-    @apply my-4 text-neutral-300 leading-relaxed;
+    @apply my-4 text-neutral-600 leading-relaxed;
   }
 
   ul,
@@ -57,7 +60,7 @@
   }
 
   fieldset {
-    @apply my-2;
+    @apply my-2 flex flex-col gap-2;
   }
 
   label {
@@ -65,22 +68,39 @@
   }
 
   input,
-  textarea {
-    @apply bg-neutral-800 p-2 px-3 rounded-sm marker:text-white my-1 border border-neutral-700 min-w-72 placeholder:text-neutral-700;
+  textarea,
+  select {
+    @apply rounded-md marker:text-white px-2 border border-neutral-200 placeholder:text-neutral-300
+    outline outline-0 outline-neutral-100 
+    focus-within:outline-4
+
+    ;
   }
 
-  button {
-    @apply transition-all duration-75 font-medium
+  button, [type="button"], .button {
+    @apply transition-all duration-75 font-medium bg-white
 
-    border border-neutral-400/40 p-1 px-4 rounded-sm
+    cursor-pointer
+    disabled:pointer-events-none
+    disabled:opacity-30
+    disabled:saturate-0
+
+    border border-neutral-400/40 p-1 px-4 rounded-md
     /* hover:bg-neutral-500/10 */
     
     outline-neutral-400/20
     outline
     outline-0
-    hover:outline-4
+    hover:outline-4;
+
+    &.destroy{
+      @apply text-red-600 outline-red-200
+    }
+
+    &.primary{
+      @apply bg-blue-600 text-white
+    }
     
-    ;
   }
 
   pre {
@@ -90,16 +110,74 @@
   table,
   th,
   td {
-    @apply border border-neutral-700 border-collapse;
+    /* @apply border border-neutral-700 border-collapse; */
   }
   table {
-    @apply my-2 min-w-[50%];
+    /* @apply rounded-lg overflow-hidden */
+    /* @apply my-2 min-w-[50%]; */
   }
   th,
   td {
     @apply p-1.5 px-2 text-left;
   }
   th {
-    @apply bg-neutral-500/10 font-medium;
+    @apply font-normal text-black/40 text-sm;
+  }
+
+  hr {
+    @apply my-[0.5lh]
+  }
+}
+
+@layer components {
+  .card {
+    @apply rounded-md border border-neutral-200 p-1 bg-white;
+
+    &-big {
+      @apply p-4;
+    }
+    header {
+      @apply text-lg font-medium
+    }
+  }
+  .fields{
+    td, th{
+      @apply h-10
+    }
+
+    th {
+      @apply bg-transparent text-neutral-400 pr-8 font-normal
+    }
+    td {
+      @apply text-sm
+    }
+  }
+  .fcol {
+    @apply flex flex-col;
+  }
+
+  .frow {
+    @apply flex flex-row;
+  }
+
+  .fcenter {
+    @apply flex items-center justify-center;
+  }
+  .badge {
+    @apply bg-blue-100/50 text-blue-600 text-xs font-normal rounded-full p-1 px-3
+  }
+
+  .horizontal-tab {
+    @apply border-b flex
+
+    ;
+    & a {
+      @apply p-3 px-12 block text-neutral-500 text-sm
+      
+      ;
+      &[data-selected=true] {
+        @apply border-blue-600 border-b-2 text-blue-600 font-medium
+      }
+    }
   }
 }
