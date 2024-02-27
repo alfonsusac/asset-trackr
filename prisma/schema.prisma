@@ -24,14 +24,15 @@ model Location {
   description  String?
   created_at   DateTime       @default(now())
   subLocations SubLocations[]
+  User         User[]
 }
 
 model SubLocations {
-  id             String   @id @default(cuid())
-  name           String
-  description    String?
-  parentLocation Location @relation(fields: [parentLocationID], references: [id])
-  parentLocationID     String
+  id               String   @id @default(cuid())
+  name             String
+  description      String?
+  parentLocation   Location @relation(fields: [parentLocationID], references: [id])
+  parentLocationID String
 }
 
 enum LocationStatus {
@@ -65,15 +66,15 @@ model User {
   id          String    @id @default(cuid())
   firstName   String
   lastName    String
-  position    String
-  employeeId  String    @unique
-  email       String
-  phoneNumber String
-  username    String    @unique
+  position    String?
+  employeeId  String?
+  phoneNumber String?
+  email       String    @unique
   password    String
-  // todo Groups and Permissions
   userGroup   UserGroup @relation(fields: [userGroupId], references: [id])
   userGroupId String
+  location    Location? @relation(fields: [locationId], references: [id])
+  locationId  String?
 }
 
 // Asset Management todo

@@ -5,11 +5,12 @@ import { User, UserGroup } from "@prisma/client"
 import { useQueryState } from "nuqs"
 import { GroupTable } from "./userGroup"
 import { UserTable } from "./user"
+import { UserTableInfo } from "./page"
 
 export default function UserManagementPageContent(
   props: {
     groups: UserGroup[]
-    users: User[]
+    users: UserTableInfo
   }
 ) {
   const [tab, setTab] = useQueryState('tab')

@@ -3,14 +3,13 @@ import { Input } from "@/components/input"
 import { DataTable } from "@/components/data-table"
 import Link from "next/link"
 import { DeleteAlert } from "@/components/alert"
-import toast from "react-hot-toast"
 import { useRouter } from "next/navigation"
-import { User } from "@prisma/client"
 import { deleteUser } from "./user/action"
+import { UserTableInfo } from "./page"
 
 export function UserTable(
   props: {
-    users: User[]
+    users: UserTableInfo
   }
 ) {
   const router = useRouter()
@@ -19,39 +18,33 @@ export function UserTable(
     <>
       <div className="flex justify-between mt-4 mb-4">
         <Input className="max-w-56" placeholder="Search" />
-        <Link href="/user-management/createUser" className="button primary">
+        <Link href="/user-management/create-user" className="button primary">
           + Add User
         </Link>
       </div>
 
-      <DataTable<User, unknown> columns={[
+      <DataTable columns={[
+        { header: "User Name", accessorFn: data => `${ data.firstName } ${ data.lastName }` },
+        { header: "Employee ID", accessorFn: data => data.employeeId },
+        { header: "Role", accessorFn: data => data.position },
+        { header: "Location", accessorFn: data => data.location?.name },
+        { header: "Groups", accessorFn: data => data.userGroup.name },
+        { header: "Status", cell: _ => <div className="badge">Active</div> },
         {
-          accessorKey: "name",
-          header: "User Name"
-        },
-        {
-          accessorKey: "description",
-          header: "Description",
-        },
-        {
-          id: 'activeUser',
-          header: "Active User",
-        },
-        {
-          id: "actions",
           header: "Actions",
+          id: "actions",
           cell: ({ row }) => {
             const userUserID = row.original.id
             return (
               <div className="flex gap-2">
                 <Link
-                  href={`/user-management/group/edit/${ userUserID }`}
+                  href={`/user-management/user/${ userUserID }`}
                   className="p-1 button border-none">
                   ✏️
                 </Link>
                 <DeleteAlert onContinue={
                   async () => {
-                    toast(await deleteUser(userUserID ?? ""))
+                    toastAction(deleteUser(userUserID))
                     router.refresh()
                   }
                 }>

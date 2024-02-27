@@ -13,6 +13,7 @@ export function action<
         return: data
       }
     } catch (error: any) {
+      console.log(error)
       return {
         error: `Error: ${ error.message } `,
       }

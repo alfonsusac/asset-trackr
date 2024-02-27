@@ -60,15 +60,13 @@
   }
 
   fieldset {
-    @apply my-2 flex flex-col gap-2;
+    @apply my-4 flex flex-col gap-1.5;
   }
 
   label {
     @apply block text-sm;
   }
-  .label-required {
-    /* @apply ; */
-    
+  .label-required, [data-required] {
     &::after{
       @apply content-['*'] text-xs align-top text-red-500;
     }
@@ -112,7 +110,7 @@
       @apply bg-blue-600 text-white
     }
     &.ghost{
-      @apply bg-transparent border-none text-blue-950/80 px-4
+      @apply bg-transparent border-none px-4
     }
     &.lineunder{
       @apply outline-none rounded-none px-0 py-1
