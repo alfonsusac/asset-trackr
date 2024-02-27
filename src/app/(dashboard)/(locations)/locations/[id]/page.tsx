@@ -13,13 +13,10 @@ export default async function LocationDetailPage(props: PageProps<['id']>) {
 
   const { id } = props.params
   const location = await prisma.location.findUnique({ where: { id }, include: { subLocations: true } })
-
   if (!location) {
     return <ResourceNotFound text="Location not found" backHref="/locations"/>
   }
-
   const { name, address, description, created_at, status, subLocations } = location
-
   return (
     <MainSection subpage>
       <Breadcrumb links={[{ href: "/locations", label: "Locations" }, { label: location.name }]} />
