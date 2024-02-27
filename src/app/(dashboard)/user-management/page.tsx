@@ -17,10 +17,15 @@ export default async function UserManagementPage() {
     groups.unshift(admin)
   }
 
+  const users = await prisma.user.findMany()
+
+
   return (
     <MainSection>
       <h1>User Management</h1>
-      <UserManagementPageContent groups={groups} />
+      <UserManagementPageContent
+        groups={groups}
+        users={users} />
     </MainSection>
   )
 }

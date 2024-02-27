@@ -144,6 +144,7 @@ export {
 export function DeleteAlert(
   props: {
     children: React.ReactNode,
+    description?: React.ReactNode
     onContinue: () => Promise<void>
   }
 ) {
@@ -158,8 +159,11 @@ export function DeleteAlert(
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete the item
-            and remove the data from our servers.
+            {
+              props.description 
+                ? props.description
+                : "This action cannot be undone. This will permanently delete the item and remove the data from our servers."
+            }
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

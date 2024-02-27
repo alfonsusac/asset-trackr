@@ -2,11 +2,16 @@
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/table"
 import { ColumnDef, flexRender, getCoreRowModel, getPaginationRowModel, useReactTable } from "@tanstack/react-table"
+import Link from "next/link"
+import { SVGProps } from "react"
+import { PhCaretLeftBold, PhCaretRight } from "./icons"
 
 export function DataTable<TData, TValue>(
   props: {
     columns: ColumnDef<TData, TValue>[]
-    data: TData[]
+    data: TData[],
+    onRowClick?: (row: TData) => void
+    rowHref?: (row: TData) => string
   }
 ) {
   const { data, columns } = props
@@ -49,7 +54,31 @@ export function DataTable<TData, TValue>(
                   <TableRow
                     key={row.id}
                     data-state={row.getIsSelected() && "selected"}
+                    className={(props.onRowClick || props.rowHref) && "cursor-pointer"}
+                    onClick={() => props.onRowClick?.(row.original)}
                   >
+                    {/* {
+                      (() => {
+                        const content = row.getVisibleCells().map((cell) => (
+                          <TableCell key={cell.id}>
+                            {
+                              flexRender(cell.column.columnDef.cell, cell.getContext())
+                            }
+                          </TableCell>
+                        ))
+
+                        return props.rowHref ? (
+                          <Link href={props.rowHref(row.original)}>
+                            {content}
+                          </Link>
+                        ) : (
+                          content
+                        )
+
+
+                        return <></>
+                      })()
+                    } */}
                     {
                       row.getVisibleCells().map((cell) => (
                         <TableCell key={cell.id}>
@@ -78,17 +107,17 @@ export function DataTable<TData, TValue>(
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}
         >
-          Previous
+          <PhCaretLeftBold />
         </button>
         <div className="px-2">
-          {table.getPageCount()}
+          Page {table.getPageCount()} of {table.getPageCount()}
         </div>
         <button
           className="border-none text-xs outline-none hover:text-black"
           onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}
         >
-          Next
+          <PhCaretRight />
         </button>
       </div>
     </div>
@@ -96,3 +125,5 @@ export function DataTable<TData, TValue>(
   )
 
 }
+
+

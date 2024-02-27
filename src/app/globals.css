@@ -66,6 +66,13 @@
   label {
     @apply block text-sm;
   }
+  .label-required {
+    /* @apply ; */
+    
+    &::after{
+      @apply content-['*'] text-xs align-top text-red-500;
+    }
+  }
 
   input,
   textarea,
@@ -73,13 +80,15 @@
     @apply rounded-md marker:text-white px-2 border border-neutral-200 placeholder:text-neutral-300
     outline outline-0 outline-neutral-100 
     focus-within:outline-4
-
     ;
+    &[aria-hidden=true]{
+      @apply hidden
+    }
   }
 
   button, [type="button"], .button {
     @apply transition-all duration-75 font-medium bg-white 
-    text-sm
+    text-sm inline-flex
 
     fcenter
 
@@ -88,10 +97,10 @@
     disabled:opacity-30
     disabled:saturate-0
 
-    border border-neutral-400/40 p-1 px-4 rounded-md
+    border border-neutral-400/40 p-2 px-5 rounded-md
     /* hover:bg-neutral-500/10 */
     
-    outline-blue-800/20
+    outline-blue-800/10
     outline
     outline-0
     hover:outline-4;
@@ -99,11 +108,22 @@
     &.destroy{
       @apply text-red-600 outline-red-200
     }
-
     &.primary{
       @apply bg-blue-600 text-white
     }
-    
+    &.ghost{
+      @apply bg-transparent border-none text-blue-950/80 px-4
+    }
+    &.lineunder{
+      @apply outline-none rounded-none px-0 py-1
+      ;
+      &:hover {
+        @apply shadow-[0_0.15rem_0_0_rgb(37_99_235_/_0.4)]
+      }
+    }
+    &.icon {
+      @apply p-1;
+    }
   }
 
   pre {
@@ -134,10 +154,10 @@
 
 @layer components {
   .card {
-    @apply rounded-md border border-neutral-200 p-1 bg-white;
+    @apply rounded-md border border-blue-900/10 shadow-black/5 p-1 bg-white;
 
     &-big {
-      @apply p-4;
+      @apply p-6 rounded-xl;
     }
     header {
       @apply text-lg font-medium
@@ -145,11 +165,16 @@
   }
   .fields{
     td, th{
-      @apply h-10
+      @apply h-10 align-top
     }
 
     th {
       @apply bg-transparent text-neutral-400 pr-8 font-normal
+       relative
+      ;
+      &::after {
+        @apply content-[':'] absolute right-0
+      }
     }
     td {
       @apply text-sm
@@ -167,7 +192,7 @@
     @apply flex items-center justify-center;
   }
   .badge {
-    @apply bg-blue-100/50 text-blue-600 text-xs font-normal rounded-full p-1 px-3
+    @apply inline-flex bg-blue-100/50 text-blue-600 text-xs font-normal rounded-full p-1 px-3
   }
 
   .horizontal-tab {

@@ -1,5 +1,7 @@
 "use client"
 
+import { DeleteAlert } from "@/components/alert"
+import { Dialog, DialogTrigger } from "@/components/dialog"
 import { TyreConfiguration } from "@prisma/client"
 import { ColumnDef } from "@tanstack/react-table"
 import Link from "next/link"
@@ -16,7 +18,7 @@ export const tyreConfigurationColumns: ColumnDef<TyreConfiguration>[] = [
   },
   {
     cell: ({ row }) => {
-      return `${row.original.sectionWidth} ${row.original.construction} ${row.original.rimDiameter}`
+      return `${ row.original.sectionWidth } ${ row.original.construction } ${ row.original.rimDiameter }`
     },
     header: "Aspect Ratio / Construction / Rim Diameter"
   },
@@ -72,3 +74,7 @@ export const tyreConfigurationColumns: ColumnDef<TyreConfiguration>[] = [
     }
   },
 ]
+
+
+
+ 

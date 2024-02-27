@@ -14,12 +14,39 @@ datasource db {
   directUrl = env("PROD_DB_URL")
 }
 
+// Location Management
+
+model Location {
+  id           String         @id @default(cuid())
+  name         String
+  status       LocationStatus
+  address      String?
+  description  String?
+  created_at   DateTime       @default(now())
+  subLocations SubLocations[]
+}
+
+model SubLocations {
+  id             String   @id @default(cuid())
+  name           String
+  description    String?
+  parentLocation Location @relation(fields: [parentLocationID], references: [id])
+  parentLocationID     String
+}
+
+enum LocationStatus {
+  Available
+  Closed
+}
+
 // User Management
 
 model UserGroup {
-  name String @id
-  description String
-  permissions UserGroupPermission[]
+  id          String                @id @default(cuid())
+  name        String                @unique
+  description String                @default("")
+  permissions UserGroupPermission[] @default([])
+  User        User[]
 }
 
 enum UserGroupPermission {
@@ -35,10 +62,18 @@ enum UserGroupPermission {
 }
 
 model User {
-  id         String @id @default(cuid())
-  username   String @unique
-  employeeId String @unique
+  id          String    @id @default(cuid())
+  firstName   String
+  lastName    String
+  position    String
+  employeeId  String    @unique
+  email       String
+  phoneNumber String
+  username    String    @unique
+  password    String
   // todo Groups and Permissions
+  userGroup   UserGroup @relation(fields: [userGroupId], references: [id])
+  userGroupId String
 }
 
 // Asset Management todo
