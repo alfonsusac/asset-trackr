@@ -4,7 +4,8 @@ import { ResourceNotFound } from "@/components/not-found"
 import { PageProps } from "@/lib/next"
 import { prisma } from "@/lib/prisma"
 import Image from "next/image"
-import { ResetPasswordDialogButton } from "./dialogs"
+import { DeleteUserDialogButton, ResetPasswordDialogButton } from "./dialogs"
+import Link from "next/link"
 
 export default async function UserDetailPage(props: PageProps<['id']>) {
 
@@ -33,8 +34,7 @@ export default async function UserDetailPage(props: PageProps<['id']>) {
           <Breadcrumb links={[{ href: "/user-management", label: "Users" }, { label: "Test" }]} />
           <h1>User Detail</h1>
         </div>
-        <ResetPasswordDialogButton userid={user.id} />
-        {/* <button className="primary self-end">✏️ Edit User</button> */}
+        <Link href={`/user-management/user/${user.id}/edit`} className="button primary self-end">✏️ Edit User</Link>
       </header>
       <div className="flex gap-4">
         <div className="max-w-96 grow fcol gap-4">
@@ -56,13 +56,12 @@ export default async function UserDetailPage(props: PageProps<['id']>) {
                 <tr><th>Role Position</th><td>{user.position}</td></tr>
                 <tr><th>Employee ID</th><td>{user.employeeId}</td></tr>
                 <tr><th>Location</th><td>{user.location?.name}</td></tr>
-                {/* <tr><th>Department</th><td>{user.email}</td></tr> */}
               </tbody>
             </table>
           </section>
           <section className="card card-big fcol gap-2 p-4">
-            <button className="ghost justify-start font-normal">♻️ Reset Password</button>
-            <button className="ghost destroy justify-start font-normal">🗑️ Delete User</button>
+            <ResetPasswordDialogButton userid={user.id} />
+            <DeleteUserDialogButton userid={user.id} />
           </section>
         </div>
 

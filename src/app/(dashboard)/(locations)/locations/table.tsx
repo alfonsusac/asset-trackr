@@ -9,7 +9,7 @@ import { Location, LocationStatus } from "@prisma/client"
 import { SelectValue } from "@radix-ui/react-select"
 import { ReactNode, SVGProps, useState } from "react"
 import { createLocation, deleteLocation, editLocation } from "./action"
-import { TableActionDeleteButton, TableActionEditDialogButton, TableHeader, generateActionColumn } from "@/components/data-table-components"
+import { DataTableDeleteButton, TableActionEditDialogButton, DataTableHeader, generateActionColumn } from "@/components/data-table-components"
 import { getLocaleDate } from "@/lib/date"
 import toast from "react-hot-toast"
 import Link from "next/link"
@@ -23,7 +23,7 @@ export default function LocationTable(
 
   return (
     <>
-      <TableHeader>
+      <DataTableHeader>
         <Dialog open={openCreateModal} onOpenChange={setOpenCreateModal}>
           <DialogTrigger asChild>
             <button className="primary">
@@ -85,7 +85,7 @@ export default function LocationTable(
         </Dialog>
 
 
-      </TableHeader>
+      </DataTableHeader>
       <DataTable
         data={props.locations}
         columns={[
@@ -110,23 +110,14 @@ export default function LocationTable(
           },
           generateActionColumn<Location>((data) =>
             <>
-              {/* <EditLocationModal data={data}>
-                <TableActionEditDialogButton />
-              </EditLocationModal> */}
-              <Link href={`/locations/${data.id}`}>
+              <Link href={`/locations/${ data.id }`}>
                 <TableActionEditDialogButton />
               </Link>
-              <TableActionDeleteButton
-                onContinue={
-                  async () => {
-                    toastAction(deleteLocation(data.id))
-                  }
-                }
-              />
+              <DataTableDeleteButton onContinue={deleteLocation(data.id)} />
             </>
           )
         ]}
-        // rowHref={(row) => `/loactions/${row.id}`}
+      // rowHref={(row) => `/loactions/${row.id}`}
       />
       {/* <TableFooter
         count={props.locations.length}

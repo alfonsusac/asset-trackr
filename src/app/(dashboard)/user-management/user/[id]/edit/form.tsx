@@ -1,56 +1,54 @@
 "use client"
 
 import { createForm } from "@/components/form-create"
-import { Input } from "@/components/input"
-import { Select, SelectItem, SelectTrigger, SelectValue } from "@/components/select"
-import EasySelect from "@/components/select-easy"
-import { toastAction } from "@/lib/action-toast"
 import { Location, UserGroup } from "@prisma/client"
-import { createUser } from "../user/action"
-import toast from "react-hot-toast"
+import { UserTableInfo } from "../../../page"
 import { useRouter } from "next/navigation"
+import { toastAction } from "@/lib/action-toast"
+import { editUser } from "../../action"
+import { Input } from "@/components/input"
+import EasySelect from "@/components/select-easy"
+import { SelectItem } from "@/components/select"
 
 const {
-  Form, // action={} are now typed.
-  getInputProps, // name="" are now typed
+  Form,
+  getInputProps,
 } = createForm({
   fields: {
     "first_name": { placeholder: "First Name", required: true },
     "last_name": { placeholder: "First Name", required: true },
     "role_position": { placeholder: "Enter role position" },
     "employee_id": { placeholder: "Enter Employee ID" },
-    "email": { placeholder: "Enter email", type: "email" },
     "phone": { type: "tel" },
     "picture": { type: "file" },
     "group": { type: "select", placeholder: "Select Groups", required: true },
     "location": { type: "select", placeholder: "Select Location" },
-    "password": { type: "password", placeholder: "Enter new password", required: true },
   }
 })
 
-export function AddNewUserForm(
+export function EditUserForm(
   props: {
+    data: UserTableInfo[number]
     groups: UserGroup[],
     locations: Location[],
   }
 ) {
   const router = useRouter()
+  const { firstName, lastName, position, employeeId, phoneNumber, userGroup, location } = props.data
 
   return (
     <Form className="space-y-4 fcol" action={
       async (form) => {
-        toastAction(createUser({
+        toastAction(editUser(props.data.id, {
           firstName: form.get('first_name'),
           lastName: form.get('last_name'),
           position: form.get('role_position'),
           employeeId: form.get('employee_id'),
-          email: form.get('email'),
           phoneNumber: form.get('phone'),
-          password: form.get('first_name'),
           userGroup: { connect: { id: form.get('group') } },
           location: form.get('location') === "" ? undefined : { connect: { id: form.get('location') } }
         }), {
-          onSuccess: () => router.push('/user-management')
+          onSuccess: () => router.push(`/user-management/user/${props.data.id}`)
         })
       }
     }>
@@ -61,29 +59,24 @@ export function AddNewUserForm(
         <fieldset>
           <label className="label-required">User Name</label>
           <div className="flex gap-2">
-            <Input {...getInputProps('first_name')} />
-            <Input {...getInputProps('last_name')} />
+            <Input {...getInputProps('first_name')} defaultValue={firstName} />
+            <Input {...getInputProps('last_name')} defaultValue={lastName} />
           </div>
         </fieldset>
 
         <fieldset>
           <label>Role Position</label>
-          <Input {...getInputProps('role_position')} />
+          <Input {...getInputProps('role_position')} defaultValue={position ?? undefined} />
         </fieldset>
 
         <fieldset>
           <label>Employee ID</label>
-          <Input {...getInputProps('employee_id')} />
-        </fieldset>
-
-        <fieldset>
-          <label className="label-required">Email</label>
-          <Input {...getInputProps('email')} />
+          <Input {...getInputProps('employee_id')} defaultValue={employeeId ?? undefined} />
         </fieldset>
 
         <fieldset>
           <label>Number Phone</label>
-          <Input {...getInputProps('phone')} />
+          <Input {...getInputProps('phone')} defaultValue={phoneNumber ?? undefined} />
         </fieldset>
 
         <fieldset>
@@ -91,14 +84,13 @@ export function AddNewUserForm(
           <Input {...getInputProps('picture')} accept="image/jpg,image/png" />
         </fieldset>
       </div>
-
       <div className="card card-big">
         <header>Group User</header>
         <hr />
 
         <fieldset>
           <label className="label-required">Groups</label>
-          <EasySelect {...getInputProps('group')}>
+          <EasySelect {...getInputProps('group')} defaultValue={userGroup.id}>
             {
               props.groups.map(group =>
                 <SelectItem key={group.id} value={group.id}>{group.name}</SelectItem>)
@@ -108,27 +100,16 @@ export function AddNewUserForm(
 
         <fieldset>
           <label>Location</label>
-          <EasySelect {...getInputProps('location')}>
+          <EasySelect {...getInputProps('location')} defaultValue={location?.id ?? undefined}>
             {
               props.locations.map(location =>
                 <SelectItem key={location.id} value={location.id}>{location.name}</SelectItem>)
             }
           </EasySelect>
         </fieldset>
+
       </div>
-
-      <div className="card card-big">
-        <header>Set New Password</header>
-        <hr />
-
-        <fieldset>
-          <label>New Password</label>
-          <Input {...getInputProps('password')} accept="image/jpg,image/png" />
-          <small className="text-neutral-400">Password must be at least 8 characters and contain numbers</small>
-        </fieldset>
-      </div>
-
-      <button className="self-end primary px-12">Create</button>
-    </Form >
+      <button className="self-end primary px-12">Save</button>
+    </Form>
   )
 }

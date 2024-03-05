@@ -19,8 +19,8 @@ export default async function UserManagementPage() {
 
   const users = await prisma.user.findMany({
     include: {
-      location: { select: { name: true } },
-      userGroup: { select: { name: true } }
+      location: { select: { name: true, id: true } },
+      userGroup: { select: { name: true, id: true } }
     }
   })
 
@@ -37,9 +37,11 @@ export default async function UserManagementPage() {
 
 export type UserTableInfo = ({
   userGroup: {
+    id: string
     name: string
   }
   location: {
+    id: string
     name: string
   } | null
 } & {
@@ -52,5 +54,5 @@ export type UserTableInfo = ({
   email: string
   password: string
   userGroupId: string
-  locationId: string
+  locationId: string | null
 })[]

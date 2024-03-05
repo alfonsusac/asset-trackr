@@ -2,9 +2,8 @@
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/table"
 import { ColumnDef, flexRender, getCoreRowModel, getPaginationRowModel, useReactTable } from "@tanstack/react-table"
-import Link from "next/link"
-import { SVGProps } from "react"
 import { PhCaretLeftBold, PhCaretRight } from "./icons"
+import { cn } from "@/lib/cn"
 
 export function DataTable<TData, TValue>(
   props: {
@@ -12,6 +11,7 @@ export function DataTable<TData, TValue>(
     data: TData[],
     onRowClick?: (row: TData) => void
     rowHref?: (row: TData) => string
+    className?: string
   }
 ) {
   const { data, columns } = props
@@ -23,10 +23,10 @@ export function DataTable<TData, TValue>(
   })
 
   return (
-    <div className="my-2">
+    <div className={cn("my-2")}>
 
       <div className="rounded-sm overflow-hidden border-b">
-        <Table className="">
+        <Table className={cn(props.className)}>
           <TableHeader>
             {
               table.getHeaderGroups().map(headerGroup => (

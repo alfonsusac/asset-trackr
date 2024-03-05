@@ -41,7 +41,7 @@ export default async function DashboardLayout(
           <SidebarItem label="Reports" href="/reports" />
           <SidebarItem label="Approval" href="/approval" />
           <SidebarGroup label="Asset Management">
-            <SidebarItem label="Vehicle" href="/asset-manage-vehicle" />
+            <SidebarItem label="Vehicle" href="/vehicle" />
           </SidebarGroup>
           <hr className="mx-4 my-4 border-white/40" />
           <SidebarItem label="Inventory" href="/inventory" />

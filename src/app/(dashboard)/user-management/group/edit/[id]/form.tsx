@@ -20,7 +20,7 @@ export function EditUserGroupForm(
   return (
     <form className="card card-big space-y-4" action={async (formData) => {
       try {
-        toast(await updateUserGroupInfo(props.data.id, {
+        toastAction(updateUserGroupInfo(props.data.id, {
           name: formData.get('name') as string,
           description: formData.get('description') as string,
         }))

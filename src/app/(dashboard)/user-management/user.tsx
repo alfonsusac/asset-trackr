@@ -6,6 +6,11 @@ import { DeleteAlert } from "@/components/alert"
 import { useRouter } from "next/navigation"
 import { deleteUser } from "./user/action"
 import { UserTableInfo } from "./page"
+import { ReactNode } from "react"
+import { useQueryState } from "nuqs"
+import { DataTableHeader } from "@/components/data-table-components"
+
+
 
 export function UserTable(
   props: {
@@ -16,12 +21,11 @@ export function UserTable(
 
   return (
     <>
-      <div className="flex justify-between mt-4 mb-4">
-        <Input className="max-w-56" placeholder="Search" />
+      <DataTableHeader>
         <Link href="/user-management/create-user" className="button primary">
           + Add User
         </Link>
-      </div>
+      </DataTableHeader>
 
       <DataTable columns={[
         { header: "User Name", accessorFn: data => `${ data.firstName } ${ data.lastName }` },

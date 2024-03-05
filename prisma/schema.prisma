@@ -63,31 +63,63 @@ enum UserGroupPermission {
 }
 
 model User {
-  id          String    @id @default(cuid())
-  firstName   String
-  lastName    String
-  position    String?
-  employeeId  String?
-  phoneNumber String?
-  email       String    @unique
-  password    String
-  userGroup   UserGroup @relation(fields: [userGroupId], references: [id])
-  userGroupId String
-  location    Location? @relation(fields: [locationId], references: [id])
-  locationId  String?
+  id                   String    @id @default(cuid())
+  firstName            String
+  lastName             String
+  position             String?
+  employeeId           String?
+  phoneNumber          String?
+  email                String    @unique
+  password             String
+  userGroup            UserGroup @relation(fields: [userGroupId], references: [id])
+  userGroupId          String
+  location             Location? @relation(fields: [locationId], references: [id])
+  locationId           String?
+  AssignedVehicles     Vehicle[] @relation("assignedTo")
+  BPKBAssignedVehicles Vehicle[] @relation("bpkbAssignedTo")
+  KIRAssignedVehicles  Vehicle[] @relation("kirAssignedTo")
 }
 
 // Asset Management todo
 
 model Vehicle {
-  id            String @id @default(cuid())
-  plateNo       String
-  name          String
-  model         String
-  bodyType      String
-  prodYear      Int
-  numberOfTyres Int
-  // assignedTo User
+  id                    String        @id @default(cuid())
+  // Table
+  plateNo               String
+  vehicleName           String
+  brandName             String
+  model                 String
+  bodyType              String
+  prodYear              Int
+  numberOfTyres         Int
+  attachedWith          Vehicle?      @relation("attachment", fields: [attachedWithVehicleId], references: [id])
+  attachedFrom          Vehicle?      @relation("attachment")
+  attachedWithVehicleId String?       @unique
+  assignedTo            User          @relation("assignedTo", fields: [assignedToUserId], references: [id])
+  assignedToUserId      String
+  createdAt             DateTime      @default(now())
+  status                VehicleStatus
+  // Detail
+  engineModel           String
+  transmissionModel     String
+  costPrice             String
+  stnkNumber            String
+  stnkExpiryDate        DateTime
+  engineNumber          String
+  chasisNumber          String
+  bpkbNumber            String
+  bpkbAssignedTo        User          @relation("bpkbAssignedTo", fields: [bpkbAssignedToUserId], references: [id])
+  bpkbAssignedToUserId  String
+  kir                   String
+  kirExpiryDate         String
+  kirAssignedTo         User          @relation("kirAssignedTo", fields: [kirAssignedToUserId], references: [id])
+  kirAssignedToUserId   String
+}
+
+enum VehicleStatus {
+  Active
+  Inactive
+  Archive
 }
 
 // Work Order (WIP)
